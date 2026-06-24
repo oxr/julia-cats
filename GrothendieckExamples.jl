@@ -1,5 +1,6 @@
-include("Grothendieck.jl")
-include("Fin.jl")
+include("Cats.jl");          using .Cats
+include("Fin.jl");           using .Fin
+include("Grothendieck.jl");  using .Grothendieck
 
 ## Z/2Z action on nats
 # F(:N) = {0,1},  F(n)(x) = (x+n) mod 2

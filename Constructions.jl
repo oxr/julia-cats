@@ -1,5 +1,8 @@
-include("Cats.jl")
+module Constructions
+
 using .Cats
+
+export op_cat, prod_cat, slice_cat, coslice_cat, SliceMor
 
 ## OPPOSITE CATEGORY
 function op_cat(C::Cat)
@@ -39,7 +42,7 @@ end
 # morphisms f → g: h : a → b in C such that h ; g = f (diagrammatic)
 
 # morphisms in the slice category must be boxed
-# because they must carry the domain and codomain of the morphism in the slice category, 
+# because they must carry the domain and codomain of the morphism in the slice category,
 struct SliceMor
     dom :: Any  # f : a → x
     cod :: Any  # g : b → x
@@ -50,20 +53,21 @@ function slice_cat(C::Cat, x)
     Cat(
         sm -> sm.dom,
         sm -> sm.cod,
-        f  -> SliceMor(f, f, C.id(C.dom(f))), # boxes the identity morphism in the slice category
-        (sm1, sm2) -> SliceMor(sm1.dom, sm2.cod, C.comp(sm1.mor, sm2.mor)) # unbox, comopose, box
+        f  -> SliceMor(f, f, C.id(C.dom(f))),
+        (sm1, sm2) -> SliceMor(sm1.dom, sm2.cod, C.comp(sm1.mor, sm2.mor))
     )
 end
 
 function slice_cat(DC::DecidableCat, x)
     DecidableCat(
         slice_cat(DC.cat, x),
-        DC.hom_eq, # objects are morphisms in C, so we can use the hom_eq of C to compare them
-        (sm1, sm2) -> DC.hom_eq(sm1.mor, sm2.mor) # objects are morphisms in C, so we can use the hom_eq of C to compare them
+        DC.hom_eq,
+        (sm1, sm2) -> DC.hom_eq(sm1.mor, sm2.mor)
     )
 end
 
-
 ## COSLICE CATEGORY x/C = slice of opposite
-coslice_cat(C::Cat, x)          = slice_cat(op_cat(C), x)
+coslice_cat(C::Cat, x)           = slice_cat(op_cat(C), x)
 coslice_cat(DC::DecidableCat, x) = slice_cat(op_cat(DC), x)
+
+end # module Constructions

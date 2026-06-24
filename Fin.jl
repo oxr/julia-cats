@@ -1,5 +1,8 @@
-include("Cats.jl")
+module Fin
+
 using .Cats
+
+export FinMorphism, compose_fin, eq_fin, fin_cat, fin_dcat
 
 struct FinMorphism
     dom   :: Int
@@ -16,3 +19,5 @@ eq_fin(f::FinMorphism, g::FinMorphism) =
 fin_cat  = Cat(f -> f.dom, f -> f.cod,
                n -> FinMorphism(n, n, collect(0:n-1)), compose_fin)
 fin_dcat = DecidableCat(fin_cat, (m,n) -> m==n, eq_fin)
+
+end # module Fin

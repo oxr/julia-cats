@@ -1,16 +1,17 @@
-include("Cats.jl")
+module Grothendieck
+
 using .Cats
 
-# A Set-valued functor F : C → Set, represented concretely in Julia.
-# Avoids needing Set as a category object — instead we build the total
-# category via the Grothendieck construction and work with fibrations.
+export SetFunctor, GObj, GMor, grothendieck, groth_proj
+export DiscreteFibration, discrete_fibration, in_fiber
+export FibMor, check_fibmor_obj, check_fibmor_mor, fib_id, fib_comp
+
 struct SetFunctor
     dom     :: Cat
     obj_map :: Function   # Obj(C) → collection
     mor_map :: Function   # Mor(C) → Function (between collections)
 end
 
-# Objects and morphisms of the Grothendieck total category E
 struct GObj
     base  :: Any   # a : Obj(C)
     fiber :: Any   # x : F(a)
@@ -23,7 +24,6 @@ struct GMor
 end
 
 # Grothendieck construction: total category E from F : C → Set
-# objects: pairs (a, x),  morphisms: (h : a→b in C, with F(h)(x) = y)
 function grothendieck(F::SetFunctor)
     C = F.dom
     Cat(
@@ -54,22 +54,18 @@ end
 struct DiscreteFibration
     total :: Cat
     base  :: Cat
-    proj  :: Func   # π : total → base
+    proj  :: Func
 end
 
-function discrete_fibration(F::SetFunctor)
-    DiscreteFibration(grothendieck(F), F.dom, groth_proj(F))
-end
+discrete_fibration(F::SetFunctor) = DiscreteFibration(grothendieck(F), F.dom, groth_proj(F))
 
-# Check that go lives in the fiber over a
 in_fiber(DC::DecidableCat, go::GObj, a) = DC.obj_eq(go.base, a)
 
-# Morphism of discrete fibrations = natural transformation F ⇒ G
-# A functor Φ : E → E' that commutes with the projections: π' ∘ Φ = π
+# Morphism of fibrations = nat trans F ⇒ G: functor Φ : E → E' with π' ∘ Φ = π
 struct FibMor
     dom :: DiscreteFibration
     cod :: DiscreteFibration
-    map :: Func               # Φ : E → E'
+    map :: Func
 end
 
 function check_fibmor_obj(fm::FibMor, DC::DecidableCat, go::GObj)
@@ -84,6 +80,7 @@ function check_fibmor_mor(fm::FibMor, DC::DecidableCat, gm::GMor)
         fm.dom.proj.mor_map(gm))
 end
 
-fib_id(df::DiscreteFibration)              = FibMor(df, df, func_id(df.total))
-fib_comp(fm1::FibMor, fm2::FibMor)        = FibMor(fm1.dom, fm2.cod, func_comp(fm1.map, fm2.map))
+fib_id(df::DiscreteFibration)       = FibMor(df, df, func_id(df.total))
+fib_comp(fm1::FibMor, fm2::FibMor) = FibMor(fm1.dom, fm2.cod, func_comp(fm1.map, fm2.map))
 
+end # module Grothendieck

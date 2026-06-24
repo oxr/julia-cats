@@ -1,6 +1,7 @@
-include("Constructions.jl")   # also brings in Cats.jl
-include("Grothendieck.jl")
-include("Fin.jl")
+include("Cats.jl");          using .Cats
+include("Fin.jl");           using .Fin
+include("Constructions.jl"); using .Constructions
+include("Grothendieck.jl");  using .Grothendieck
 
 ## NATS: natural numbers as a one-object category, composition is addition
 nats_cat = Cat(
