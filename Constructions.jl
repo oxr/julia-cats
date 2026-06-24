@@ -1,3 +1,17 @@
+# Constructions.jl — standard constructions on categories
+#
+# Each construction is defined twice via multiple dispatch:
+# once for Cat (the underlying structure) and once for DecidableCat
+# (which threads through the appropriate equality witnesses).
+# This avoids duplicating logic — only the equality wiring differs.
+#
+#   op_cat      — opposite category C^op (dom/cod swapped, comp reversed)
+#   prod_cat    — product category C × D (objects and morphisms are pairs)
+#   slice_cat   — slice category C/x (objects are legs f:a→x, morphisms are
+#                 triangles h:a→b with h;g=f); morphisms are boxed in SliceMor
+#                 to carry the domain and codomain legs alongside h
+#   coslice_cat — coslice x/C, defined as slice_cat(op_cat(C), x)
+
 module Constructions
 
 using ..Cats

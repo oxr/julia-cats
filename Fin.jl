@@ -1,3 +1,13 @@
+# Fin.jl — the category of finite sets (skeleton)
+#
+# Objects are natural numbers n (representing the set {0,...,n-1}).
+# Morphisms n → m are functions represented as lookup tables (length-n
+# vectors with entries in 0:m-1). Composition is function composition
+# via table indexing.
+#
+# Provides fin_cat (Cat) and fin_dcat (DecidableCat), and the helper
+# functions compose_fin and eq_fin used to build them.
+
 module Fin
 
 using ..Cats

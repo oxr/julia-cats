@@ -1,3 +1,21 @@
+# Grothendieck.jl — Set-valued functors via the Grothendieck construction
+#
+# Representing functors F : C → Set directly requires Set to exist as a
+# category, which needs universes or class theory. Instead, we encode F
+# by its Grothendieck total category E and the projection π : E → C.
+#
+#   SetFunctor       — concrete representation of F : C → Set (obj_map and
+#                      mor_map as Julia functions, no Set-as-category needed)
+#   GObj / GMor      — objects (a, x) and morphisms (h, x, y) of the total
+#                      category E; morphisms box the base C-morphism h together
+#                      with its fiber endpoints so dom/cod return the full pair
+#   grothendieck     — builds the total Cat (or DecidableCat) from a SetFunctor
+#   groth_proj       — the projection functor π : E → C
+#   DiscreteFibration — packages (E, C, π) together; equivalent to a Set-valued
+#                       functor on C by the Grothendieck correspondence
+#   FibMor           — morphism of fibrations (= natural transformation F ⇒ G):
+#                      a functor Φ : E → E' commuting with the projections
+
 module Grothendieck
 
 using ..Cats

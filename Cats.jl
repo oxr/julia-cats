@@ -1,3 +1,18 @@
+# Cats.jl — core category theory primitives
+#
+# Defines the basic structures and laws of category theory:
+#   Cat            — a category given by dom, cod, id, and comp functions
+#   DecidableCat   — a Cat equipped with decidable equality on objects and morphisms,
+#                    enabling runtime law checks (unit, associativity)
+#   Func           — a functor between two Cats (object map + morphism map),
+#                    with functoriality checks (preservation of id and comp)
+#   NatTrans       — a natural transformation between two functors,
+#                    with the naturality square check and vertical/horizontal composition
+#
+# All composition is in diagrammatic order (f then g, written f ; g).
+# Decidability is kept separate from structure so constructions can be
+# defined once on Cat and lifted to DecidableCat independently.
+
 module Cats
 
 export Cat, DecidableCat, Func, NatTrans                                                    # types
