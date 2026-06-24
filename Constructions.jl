@@ -1,6 +1,6 @@
 module Constructions
 
-using .Cats
+using ..Cats
 
 export op_cat, prod_cat, slice_cat, coslice_cat, SliceMor
 

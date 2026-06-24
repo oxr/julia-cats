@@ -1,6 +1,6 @@
 module Fin
 
-using .Cats
+using ..Cats
 
 export FinMorphism, compose_fin, eq_fin, fin_cat, fin_dcat
 
