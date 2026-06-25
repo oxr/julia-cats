@@ -4,5 +4,5 @@ include("Cats.jl");     using .Cats
             C, 
             prod_cat(C,C), 
             x -> (x,x), 
-            f -> ((x,y) -> (f(x),f(y))
-)
+            f -> ((x,y) -> (f(x),f(y)))
+        )
