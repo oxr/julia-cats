@@ -25,7 +25,7 @@ export DiscreteFibration, discrete_fibration, in_fiber
 export FibMor, check_fibmor_obj, check_fibmor_mor, fib_id, fib_comp
 
 struct SetFunctor
-    dom     :: Cat
+    dom     :: AbstractCat
     obj_map :: Function   # Obj(C) → collection
     mor_map :: Function   # Mor(C) → Function (between collections)
 end
@@ -47,8 +47,8 @@ function grothendieck(F::SetFunctor)
     Cat(
         gm -> gm.dom,
         gm -> gm.cod,
-        go -> GMor(go, go, C.id(go.base)),
-        (gm1, gm2) -> GMor(gm1.dom, gm2.cod, C.comp(gm1.mor, gm2.mor))
+        go -> GMor(go, go, id(C, go.base)),
+        (gm1, gm2) -> GMor(gm1.dom, gm2.cod, comp(C, gm1.mor, gm2.mor))
     )
 end
 
@@ -56,8 +56,8 @@ end
 function grothendieck(F::SetFunctor, C::DecidableCat, fiber_eq::Function)
     DecidableCat(
         grothendieck(F),
-        (go1, go2) -> C.obj_eq(go1.base, go2.base) && fiber_eq(go1.fiber, go2.fiber),
-        (gm1, gm2) -> C.hom_eq(gm1.mor, gm2.mor)
+        (go1, go2) -> obj_eq(C, go1.base, go2.base) && fiber_eq(go1.fiber, go2.fiber),
+        (gm1, gm2) -> hom_eq(C, gm1.mor, gm2.mor)
     )
 end
 
@@ -70,8 +70,8 @@ end
 
 # A discrete fibration over C, equivalent to a Set-valued functor on C
 struct DiscreteFibration
-    total :: Cat
-    base  :: Cat
+    total :: AbstractCat
+    base  :: AbstractCat
     proj  :: Func
 end
 
@@ -86,14 +86,14 @@ struct FibMor
     map :: Func
 end
 
-function check_fibmor_obj(fm::FibMor, DC::DecidableCat, go::GObj)
-    DC.obj_eq(
+function check_fibmor_obj(fm::FibMor, DC::AbstractDecidableCat, go::GObj)
+    obj_eq(DC,
         fm.cod.proj.obj_map(fm.map.obj_map(go)),
         fm.dom.proj.obj_map(go))
 end
 
-function check_fibmor_mor(fm::FibMor, DC::DecidableCat, gm::GMor)
-    DC.hom_eq(
+function check_fibmor_mor(fm::FibMor, DC::AbstractDecidableCat, gm::GMor)
+    hom_eq(DC,
         fm.cod.proj.mor_map(fm.map.mor_map(gm)),
         fm.dom.proj.mor_map(gm))
 end
