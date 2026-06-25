@@ -67,8 +67,8 @@ function slice_cat(C::Cat, x)
     Cat(
         sm -> sm.dom,
         sm -> sm.cod,
-        f  -> SliceMor(f, f, C.id(C.dom(f))),
-        (sm1, sm2) -> SliceMor(sm1.dom, sm2.cod, C.comp(sm1.mor, sm2.mor))
+        f  -> SliceMor(f, f, id(C, C.dom(f))),
+        (sm1, sm2) -> SliceMor(sm1.dom, sm2.cod, comp(C, sm1.mor, sm2.mor))
     )
 end
 
