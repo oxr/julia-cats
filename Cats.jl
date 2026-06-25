@@ -24,11 +24,11 @@ export check_naturality, nat_id, vcomp, hcomp_right, hcomp_left, hcomp          
 export check_vcomp_naturality, check_hcomp_right_naturality, check_hcomp_left_naturality    #
 export check_interchange                                                                    #
 
-abstract type AbstractCat{O,M}  end
-abstract type AbstractDecidableCat{O,M} <: AbstractCat{O,M}  end
+abstract type AbstractCat end
+abstract type AbstractDecidableCat <: AbstractCat end
 
 # Categories without decidable equality on objects and morphisms
-struct Cat{O,M} <: AbstractCat{O,M}
+struct Cat <: AbstractCat
     dom  :: Function  # Mor -> Obj
     cod  :: Function  # Mor -> Obj
     id   :: Function  # Obj -> Mor
@@ -41,8 +41,8 @@ id(C::Cat, x) = C.id(x)
 comp(C::Cat, f, g) = C.comp(f, g)
 
 # Categories with decidable equality on objects and morphisms
-struct DecidableCat{O,M} <: AbstractDecidableCat{O,M}
-    cat    :: Cat{O,M}  
+struct DecidableCat <: AbstractDecidableCat
+    cat    :: Cat
     obj_eq :: Function  # Obj -> Obj -> Bool
     hom_eq :: Function  # Mor -> Mor -> Bool
 end
