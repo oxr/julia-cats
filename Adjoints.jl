@@ -16,6 +16,7 @@
 module Adjoints
 
 using ..Cats
+using ..Functors
 
 export Adjunction, check_triangle_left, check_triangle_right
 

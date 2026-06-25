@@ -1,4 +1,5 @@
-include("Cats.jl");     using .Cats
+include("Cats.jl");      using .Cats
+include("Functors.jl"); using .Functors
 include("Adjoints.jl"); using .Adjoints
 
 # NATS AS A POSET

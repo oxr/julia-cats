@@ -1,4 +1,5 @@
 include("Cats.jl");          using .Cats
+include("Functors.jl");      using .Functors
 include("Fin.jl");           using .Fin
 include("Constructions.jl"); using .Constructions
 include("Grothendieck.jl");  using .Grothendieck

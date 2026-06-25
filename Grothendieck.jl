@@ -19,6 +19,7 @@
 module Grothendieck
 
 using ..Cats
+using ..Functors
 
 export SetFunctor, GObj, GMor, grothendieck, groth_proj
 export DiscreteFibration, discrete_fibration, in_fiber
